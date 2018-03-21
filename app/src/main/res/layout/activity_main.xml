@@ -6,13 +6,34 @@
     android:layout_height="match_parent"
     tools:context="ru.geekbrains.evgeniy.itunesplayer.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editText_keyword"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:ems="10"
+        android:hint="@string/enter_keyword"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_result"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_result"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_keyword" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyvlerView_result"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_result" />
 
 </android.support.constraint.ConstraintLayout>
