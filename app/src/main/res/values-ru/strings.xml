@@ -2,4 +2,5 @@
 <resources>
     <string name="enter_keyword">Введите ключевое слово для поиска</string>
     <string name="show_result">Показать результат</string>
+    <string name="error_network">При работе с сетью возникла ошибка</string>
 </resources>
