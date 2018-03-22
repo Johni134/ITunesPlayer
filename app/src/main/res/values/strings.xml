@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">ITunesPlayer</string>
-    <string name="enter_keyword">Enter keyword for search:</string>
+    <string name="enter_keyword">Enter keyword for search</string>
     <string name="show_result">Show result</string>
 </resources>
