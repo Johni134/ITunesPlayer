@@ -49,6 +49,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder>{
             return 0;
         return modelResponseResult.size();
     }
+
 }
 
 class ResultViewHolder extends RecyclerView.ViewHolder {
