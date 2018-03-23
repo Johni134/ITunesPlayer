@@ -3,4 +3,5 @@
     <string name="enter_keyword">Enter keyword for search</string>
     <string name="show_result">Show result</string>
     <string name="error_network">An error occurred during networking</string>
+    <string name="error_5_min_characters">Keyword(-s) must be at least 5 characters</string>
 </resources>

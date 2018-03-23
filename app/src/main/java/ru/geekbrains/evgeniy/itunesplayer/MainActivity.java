@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
@@ -43,18 +45,31 @@ public class MainActivity extends AppCompatActivity {
         buttonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.getApi().getData(editTextKeyword.getText().toString()).enqueue(new Callback<ModelResponse>() {
-                    @Override
-                    public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
-                        modelResponceResultList.addAll(response.body().getResults());
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                    }
 
-                    @Override
-                    public void onFailure(Call<ModelResponse> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, getString(R.string.error_network), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                String keywords = editTextKeyword.getText().toString();
+
+                if(keywords.trim().length() < 5) {
+                    Toast.makeText(MainActivity.this, getString(R.string.error_5_min_characters), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    App.getApi().getData(URLEncoder.encode(keywords, "UTF-8")).enqueue(new Callback<ModelResponse>() {
+                        @Override
+                        public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
+                            modelResponceResultList.clear();
+                            modelResponceResultList.addAll(response.body().getResults());
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ModelResponse> call, Throwable t) {
+                            Toast.makeText(MainActivity.this, getString(R.string.error_network), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
