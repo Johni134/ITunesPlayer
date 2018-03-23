@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">ITunesPlayer</string>
+    <string name="app_name">iTunes player</string>
     <string name="enter_keyword">Enter keyword for search</string>
     <string name="show_result">Show result</string>
     <string name="error_network">An error occurred during networking</string>
     <string name="error_5_min_characters">Keyword(-s) must be at least 5 characters</string>
+    <string name="textview_test">TestValue</string>
+    <string name="image_logo">Logo</string>
 </resources>

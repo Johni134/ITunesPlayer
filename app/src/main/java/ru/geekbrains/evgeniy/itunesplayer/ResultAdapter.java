@@ -1,11 +1,22 @@
 package ru.geekbrains.evgeniy.itunesplayer;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -44,15 +55,21 @@ class ResultViewHolder extends RecyclerView.ViewHolder {
 
     private TextView artistName;
     private TextView trackName;
+    private ImageView thumb;
     public ResultViewHolder(View itemView) {
         super(itemView);
         artistName = itemView.findViewById(R.id.textView_artistName);
         trackName = itemView.findViewById(R.id.textView_trackName);
+        thumb = itemView.findViewById(R.id.imageView_thumb);
     }
 
     void bind(List<ModelResponceResult> results, int position) {
         ModelResponceResult modelResponceResult = results.get(position);
         artistName.setText(modelResponceResult.getArtistName());
         trackName.setText(modelResponceResult.getTrackName());
+        String img60 = modelResponceResult.getArtworkUrl60();
+        Picasso.with(thumb.getContext()).load(img60).into(thumb);
     }
+
 }
+
