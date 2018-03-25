@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.geekbrains.evgeniy.itunesplayer.PlayerActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_horizont50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/imageView_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_horizont50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <ImageButton
+        android:id="@+id/imageButton_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@android:drawable/ic_media_play"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical50"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_player" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageButton
+        android:id="@+id/imageButton_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@android:drawable/ic_media_pause"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_vertical50"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_player" />
+
+    <SeekBar
+        android:id="@+id/seekBar_player"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/guideline_vertical20"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical80"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizont50" />
+</android.support.constraint.ConstraintLayout>

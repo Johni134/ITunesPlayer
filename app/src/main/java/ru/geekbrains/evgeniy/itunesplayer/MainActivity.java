@@ -23,6 +23,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String ITUNES_MEDIA_TYPE = "music";
     RecyclerView recyclerView;
     List<ModelResponceResult> modelResponceResultList;
     EditText editTextKeyword;
@@ -52,14 +53,17 @@ public class MainActivity extends AppCompatActivity {
                 String keywords = editTextKeyword.getText().toString();
 
                 if(keywords.trim().length() < 5) {
-                    Toast.makeText(MainActivity.this, getString(R.string.error_5_min_characters), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            getString(R.string.error_5_min_characters), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 try {
-                    App.getApi().getData(URLEncoder.encode(keywords, "UTF-8")).enqueue(new Callback<ModelResponse>() {
+                    App.getApi().getData(URLEncoder.encode(keywords, "UTF-8"), ITUNES_MEDIA_TYPE)
+                            .enqueue(new Callback<ModelResponse>() {
                         @Override
-                        public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
+                        public void onResponse(Call<ModelResponse> call,
+                                               Response<ModelResponse> response) {
                             modelResponceResultList.clear();
                             modelResponceResultList.addAll(response.body().getResults());
                             recyclerView.scrollToPosition(0);
@@ -68,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ModelResponse> call, Throwable t) {
-                            Toast.makeText(MainActivity.this, getString(R.string.error_network), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,
+                                    getString(R.string.error_network), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (UnsupportedEncodingException e) {

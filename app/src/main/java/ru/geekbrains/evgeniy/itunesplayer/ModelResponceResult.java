@@ -97,21 +97,12 @@ public class ModelResponceResult {
     @SerializedName("primaryGenreName")
     @Expose
     private String primaryGenreName;
-    @SerializedName("contentAdvisoryRating")
-    @Expose
-    private String contentAdvisoryRating;
     @SerializedName("isStreamable")
     @Expose
     private Boolean isStreamable;
-    @SerializedName("collectionArtistId")
-    @Expose
-    private Integer collectionArtistId;
     @SerializedName("collectionArtistName")
     @Expose
     private String collectionArtistName;
-    @SerializedName("collectionArtistViewUrl")
-    @Expose
-    private String collectionArtistViewUrl;
 
     public String getWrapperType() {
         return wrapperType;
@@ -353,14 +344,6 @@ public class ModelResponceResult {
         this.primaryGenreName = primaryGenreName;
     }
 
-    public String getContentAdvisoryRating() {
-        return contentAdvisoryRating;
-    }
-
-    public void setContentAdvisoryRating(String contentAdvisoryRating) {
-        this.contentAdvisoryRating = contentAdvisoryRating;
-    }
-
     public Boolean getIsStreamable() {
         return isStreamable;
     }
@@ -369,28 +352,12 @@ public class ModelResponceResult {
         this.isStreamable = isStreamable;
     }
 
-    public Integer getCollectionArtistId() {
-        return collectionArtistId;
-    }
-
-    public void setCollectionArtistId(Integer collectionArtistId) {
-        this.collectionArtistId = collectionArtistId;
-    }
-
     public String getCollectionArtistName() {
         return collectionArtistName;
     }
 
     public void setCollectionArtistName(String collectionArtistName) {
         this.collectionArtistName = collectionArtistName;
-    }
-
-    public String getCollectionArtistViewUrl() {
-        return collectionArtistViewUrl;
-    }
-
-    public void setCollectionArtistViewUrl(String collectionArtistViewUrl) {
-        this.collectionArtistViewUrl = collectionArtistViewUrl;
     }
 
 }

@@ -1,5 +1,6 @@
 package ru.geekbrains.evgeniy.itunesplayer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -34,12 +35,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder>{
     @Override
     public ResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.itunes_item, parent, false);
-        return new ResultViewHolder(v);
+        return new ResultViewHolder(modelResponseResult, v);
     }
 
     @Override
     public void onBindViewHolder(ResultViewHolder holder, int position) {
-        holder.bind(modelResponseResult ,position);
+        holder.bind(position);
     }
 
     @Override
@@ -52,19 +53,22 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder>{
 
 }
 
-class ResultViewHolder extends RecyclerView.ViewHolder {
+class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private TextView artistName;
     private TextView trackName;
     private ImageView thumb;
-    public ResultViewHolder(View itemView) {
+    List<ModelResponceResult> results;
+    public ResultViewHolder(List<ModelResponceResult> results, View itemView) {
         super(itemView);
+        this.results = results;
         artistName = itemView.findViewById(R.id.textView_artistName);
         trackName = itemView.findViewById(R.id.textView_trackName);
         thumb = itemView.findViewById(R.id.imageView_thumb);
+        itemView.setOnClickListener(this);
     }
 
-    void bind(List<ModelResponceResult> results, int position) {
+    void bind(int position) {
         ModelResponceResult modelResponceResult = results.get(position);
         artistName.setText(modelResponceResult.getArtistName());
         trackName.setText(modelResponceResult.getTrackName());
@@ -72,5 +76,14 @@ class ResultViewHolder extends RecyclerView.ViewHolder {
         Picasso.with(thumb.getContext()).load(img60).into(thumb);
     }
 
+    @Override
+    public void onClick(View v) {
+        ModelResponceResult modelResponceResult = results.get(this.getLayoutPosition());
+        Intent playerIntent = new Intent(thumb.getContext(), PlayerActivity.class);
+        playerIntent.putExtra(PlayerActivity.MEDIA_PREVIEW_TRACK_KEY, modelResponceResult.getPreviewUrl());
+        playerIntent.putExtra(PlayerActivity.MEDIA_TRACK_NAME_KEY, modelResponceResult.getTrackName());
+        playerIntent.putExtra(PlayerActivity.MEDIA_ALBUM_IMG_KEY, modelResponceResult.getArtworkUrl100());
+        thumb.getContext().startActivity(playerIntent);
+    }
 }
 

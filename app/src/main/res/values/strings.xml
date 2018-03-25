@@ -6,4 +6,5 @@
     <string name="error_5_min_characters">Keyword(-s) must be at least 5 characters</string>
     <string name="textview_test">TestValue</string>
     <string name="image_logo">Logo</string>
+    <string name="title_activity_player">Player</string>
 </resources>
