@@ -1,9 +1,8 @@
 package ru.geekbrains.evgeniy.itunesplayer;
 
-import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * Created by Korotchenko-es on 22.03.18.
@@ -11,5 +10,5 @@ import retrofit2.http.Query;
 
 public interface ITunesAPI {
     @GET("search")
-    Call<ModelResponse> getData(@Query("term") String searchTerm, @Query("media") String mediaType);
+    Observable<ModelResponse> getData(@Query("term") String searchTerm, @Query("media") String mediaType);
 }

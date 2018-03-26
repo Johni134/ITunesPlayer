@@ -20,6 +20,9 @@ import java.util.concurrent.RecursiveAction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,23 +62,19 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 try {
-                    App.getApi().getData(URLEncoder.encode(keywords, "UTF-8"), ITUNES_MEDIA_TYPE)
-                            .enqueue(new Callback<ModelResponse>() {
-                        @Override
-                        public void onResponse(Call<ModelResponse> call,
-                                               Response<ModelResponse> response) {
-                            modelResponceResultList.clear();
-                            modelResponceResultList.addAll(response.body().getResults());
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.getAdapter().notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onFailure(Call<ModelResponse> call, Throwable t) {
-                            Toast.makeText(MainActivity.this,
-                                    getString(R.string.error_network), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    App.getApi()
+                            .getData(URLEncoder.encode(keywords, "UTF-8"), ITUNES_MEDIA_TYPE)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Action1<ModelResponse>() {
+                                @Override
+                                public void call(ModelResponse modelResponse) {
+                                    modelResponceResultList.clear();
+                                    modelResponceResultList.addAll(modelResponse.getResults());
+                                    recyclerView.scrollToPosition(0);
+                                    recyclerView.getAdapter().notifyDataSetChanged();
+                                }
+                            });
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
