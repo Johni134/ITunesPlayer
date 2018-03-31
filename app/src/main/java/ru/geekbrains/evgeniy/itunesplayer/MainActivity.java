@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                             .subscribe(new FlowableSubscriber<ModelResponse>() {
                                 @Override
                                 public void onSubscribe(Subscription s) {
-
+                                    s.request(1);
                                 }
 
                                 @Override
