@@ -15,7 +15,10 @@ import android.widget.SeekBar;
 
 import com.squareup.picasso.Picasso;
 
-public class PlayerActivity extends Activity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
+public class PlayerActivity extends Activity implements View.OnClickListener,
+        SeekBar.OnSeekBarChangeListener,
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnBufferingUpdateListener {
 
     final static String MEDIA_PREVIEW_TRACK_KEY = "media_preview_track";
     final static String MEDIA_ALBUM_IMG_KEY = "media_album_img";
@@ -130,5 +133,13 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+        super.onBackPressed();
     }
 }
