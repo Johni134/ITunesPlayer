@@ -11,18 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.reactivestreams.Subscription;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,19 +59,33 @@ public class MainActivity extends AppCompatActivity {
                             getString(R.string.error_5_min_characters), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 try {
                     App.getApi()
                             .getData(URLEncoder.encode(keywords, "UTF-8"), ITUNES_MEDIA_TYPE)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Action1<ModelResponse>() {
+                            .subscribe(new FlowableSubscriber<ModelResponse>() {
                                 @Override
-                                public void call(ModelResponse modelResponse) {
+                                public void onSubscribe(Subscription s) {
+
+                                }
+
+                                @Override
+                                public void onNext(ModelResponse modelResponse) {
                                     modelResponceResultList.clear();
                                     modelResponceResultList.addAll(modelResponse.getResults());
                                     recyclerView.scrollToPosition(0);
                                     recyclerView.getAdapter().notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+
                                 }
                             });
                 } catch (UnsupportedEncodingException e) {

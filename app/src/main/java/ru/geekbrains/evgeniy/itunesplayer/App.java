@@ -2,8 +2,9 @@ package ru.geekbrains.evgeniy.itunesplayer;
 
 import android.app.Application;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -21,7 +22,7 @@ public class App extends Application {
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://itunes.apple.com")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
         iTunesAPI = retrofit.create(ITunesAPI.class);
