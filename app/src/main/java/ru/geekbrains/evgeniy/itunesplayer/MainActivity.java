@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import org.reactivestreams.Subscription;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -80,7 +83,19 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(Throwable t) {
-
+                                    if (t instanceof IOException) {
+                                        Toast.makeText(MainActivity.this,
+                                                getString(R.string.check_internet_connection),
+                                                Toast.LENGTH_SHORT).show();
+                                    } else if (t instanceof HttpException) {
+                                        Toast.makeText(MainActivity.this,
+                                                getString(R.string.server_error),
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this,
+                                                getString(R.string.unknown_error),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }
 
                                 @Override

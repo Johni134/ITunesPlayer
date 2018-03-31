@@ -4,4 +4,7 @@
     <string name="show_result">Показать результат</string>
     <string name="error_network">При работе с сетью возникла ошибка</string>
     <string name="error_5_min_characters">Введите минимум 5 символов в поле поиска</string>
+    <string name="check_internet_connection">Проверьте соединение с интернетом</string>
+    <string name="server_error">Неизвестный ответ от сервера</string>
+    <string name="unknown_error">Неизвестная ошибка, попробуйте еще раз</string>
 </resources>
