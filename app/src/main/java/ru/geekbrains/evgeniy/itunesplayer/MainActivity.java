@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.io.IOException;
@@ -24,11 +25,14 @@ import java.util.concurrent.RecursiveAction;
 
 import io.reactivex.FlowableSubscriber;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String ITUNES_MEDIA_TYPE = "music";
+    private Disposable disposable = null;
     RecyclerView recyclerView;
     List<ModelResponceResult> modelResponceResultList;
     EditText editTextKeyword;
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         buttonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String keywords = editTextKeyword.getText().toString();
 
                 if(keywords.trim().length() < 5) {
@@ -62,32 +65,30 @@ public class MainActivity extends AppCompatActivity {
                             getString(R.string.error_5_min_characters), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                tryToUnsubscribe();
+
                 try {
-                    App.getApi()
+                    disposable = App.getApi()
                             .getData(URLEncoder.encode(keywords, "UTF-8"), ITUNES_MEDIA_TYPE)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new FlowableSubscriber<ModelResponse>() {
+                            .subscribe(new Consumer<ModelResponse>() {
                                 @Override
-                                public void onSubscribe(Subscription s) {
-                                    s.request(1);
-                                }
-
-                                @Override
-                                public void onNext(ModelResponse modelResponse) {
+                                public void accept(ModelResponse modelResponse) throws Exception {
                                     modelResponceResultList.clear();
                                     modelResponceResultList.addAll(modelResponse.getResults());
                                     recyclerView.scrollToPosition(0);
                                     recyclerView.getAdapter().notifyDataSetChanged();
                                 }
-
+                            }, new Consumer<Throwable>() {
                                 @Override
-                                public void onError(Throwable t) {
-                                    if (t instanceof IOException) {
+                                public void accept(Throwable throwable) throws Exception {
+                                    if (throwable instanceof IOException) {
                                         Toast.makeText(MainActivity.this,
                                                 getString(R.string.check_internet_connection),
                                                 Toast.LENGTH_SHORT).show();
-                                    } else if (t instanceof HttpException) {
+                                    } else if (throwable instanceof HttpException) {
                                         Toast.makeText(MainActivity.this,
                                                 getString(R.string.server_error),
                                                 Toast.LENGTH_SHORT).show();
@@ -96,11 +97,6 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.unknown_error),
                                                 Toast.LENGTH_SHORT).show();
                                     }
-                                }
-
-                                @Override
-                                public void onComplete() {
-
                                 }
                             });
                 } catch (UnsupportedEncodingException e) {
@@ -116,5 +112,16 @@ public class MainActivity extends AppCompatActivity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+    }
+
+    private void tryToUnsubscribe() {
+        if (disposable != null && !disposable.isDisposed())
+            disposable.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        tryToUnsubscribe();
+        super.onDestroy();
     }
 }
